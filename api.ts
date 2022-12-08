@@ -5,7 +5,7 @@ const app = new Hono();
 
 app.use("*", logger());
 
-app.get("/", (c) => c.text("Hello! Hono!"));
+app.get("/", (c) => c.text("Hello! Hono! From preview!"));
 
 app.get("/env/:var", (c) => {
   const key = c.req.param("var").toUpperCase();
