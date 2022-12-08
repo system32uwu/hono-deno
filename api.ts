@@ -7,6 +7,8 @@ app.use("*", logger());
 
 app.get("/", (c) => c.text("Hello! Hono! From preview!"));
 
+app.get("/foo", (c) => c.text("bar"));
+
 app.get("/env/:var", (c) => {
   const key = c.req.param("var").toUpperCase();
   const value = Deno.env.get(key) || null;
