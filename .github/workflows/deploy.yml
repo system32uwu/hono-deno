@@ -1,17 +1,15 @@
-name: Deno
+name: Test and Deploy
 
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
-permissions:
-  contents: read
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Setup repo
@@ -23,12 +21,28 @@ jobs:
         with:
           deno-version: v1.x
 
-      # Uncomment this step to verify the use of 'deno fmt' on each commit.
       - name: Verify formatting
-        run: deno fmt --check
+        run: deno fmt
 
       - name: Run linter
         run: deno lint
 
       - name: Run tests
         run: deno test -A
+  
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Needed for auth with Deno Deploy
+      contents: read # Needed to clone the repository
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: "system32uwu-hono-deno"
+          entrypoint: "./main.ts"
