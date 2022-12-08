@@ -4,5 +4,5 @@ import { app } from "./api.ts";
 Deno.test("Hello World", async () => {
   const res = await app.request("http://localhost:8000/");
   assertEquals(res.status, 200);
-  assertEquals(await res.text(), "Hello! Hono! From preview!");
+  assertEquals(await res.text(), "Hello! Hono!");
 });
